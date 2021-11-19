@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重复请求</title>
+</head>
+<body>
+    <button>点击发送</button>
+    <script>
+          const btns=document.querySelectorAll('button');
+        //   注意这里不能用const
+          let x=null;
+        //   需要加入一个标识变量,是否正在发送ajax请求
+        let isSending=false;
+
+          btns[0].onclick=function(){
+              if(isSending){
+                //   如果上一个还在的话就取消
+                  x.abort();
+              }
+              x=new XMLHttpRequest();
+              isSending=true;
+              x.open('GET','http://127.0.0.1:8000/delay');
+              x.send();
+              xhr.onreadystatechange=function(){
+                if(xhr.readyState===4){
+                   isSending=false;
+                }
+              }
+          }
+
+          btns[1].onclick=function(){
+              x.abort();
+          }
+    </script>
+</body>
+</html>

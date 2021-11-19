@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result{
+            width: 200px;
+            height: 100px;
+            border: 1px solid #903;
+        }
+    </style>
+</head>
+<body>
+    <button>点击发送请求</button>
+    <div id="result"></div>
+    <script>
+        const btn=document.getElementsByTagName('button')[0];
+        const result =document.querySelector('#result');
+        btn.addEventListener('click',function(){
+            // console.log('test');
+
+            const xhr=new XMLHttpRequest();
+            // 超时设置,超过两秒还没有返回就取消
+            xhr.timeout=2000;
+            // 超时回调
+            xhr.ontimeout=function(){
+                alert('已超时');
+            }
+            xhr.onerror=function(){
+                alert('你的网络似乎出了一点问题');
+            }
+            
+            xhr.open('GET','http://127.0.0.1:8000/delay');
+            xhr.send();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState===4){
+                    // 判断响应的状态码
+                    if(xhr.status>=200&&xhr.status<300){
+                        // ie浏览器会有缓存，数据的时效性会降低
+                        result.innerHTML=xhr.response;
+                    }else{
+
+                    }
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>

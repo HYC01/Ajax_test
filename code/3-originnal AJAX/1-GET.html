@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result{
+            width: 200px;
+            height: 100px;
+            border: 1px solid red;
+        }
+
+    </style>
+</head>
+<body>
+    <button>点击发送请求</button>
+    <div id="result"></div>
+
+    <script>
+        const btn=document.querySelector('button');
+        const result=document.querySelector('#result');
+        btn.onclick=function(){
+            // 进行ajax操作
+            // 1.创建对象
+            const xhr=new XMLHttpRequest();
+            // 2.初始化 设置请求方法和url
+            // 可以再url后面加上参数
+            xhr.open('GET','http://127.0.0.1:8000/server?a=100&b=200&c=300');
+            // 3.发送
+            xhr.send();
+            // 4.事件绑定
+            // readystate,0,1,2,3,4五种方式
+            xhr.onreadystatechange=function(){
+                // 判断,当等于4的时候服务端返回了所有结果
+                if(xhr.readyState===4){
+                    // 判断响应的状态码
+                    if(xhr.status===200){
+                        // 处理结果 行 头 空行 体
+                        // 这里能够拿到所有的响应
+                        // 1，响应行
+                        console.log(xhr.status);//状态码
+                        console.log(xhr.statusText);//状态字符串
+                        // 响应头
+                        console.log(xhr.getAllResponseHeaders);
+                        // 响应体
+                        console.log(xhr.response);
+
+                        // 设置result文本
+                        result.innerHTML=xhr.response;
+                    }else{
+
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
